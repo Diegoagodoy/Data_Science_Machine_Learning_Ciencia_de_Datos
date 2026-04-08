@@ -1,4 +1,4 @@
-# Prediccion de Vida Util de Motores Mantenimiento Predictivo
+# Prediccion de Vida Util de Motores (Mantenimiento Predictivo)
 
 ## Descripcion del Proyecto
 
