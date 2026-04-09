@@ -35,11 +35,11 @@ El dataset contiene las siguientes variables principales:
 * `ciclo`: número de ciclo de operacion
 * `sensor_1` a `sensor_21`: mediciones de sensores
 * `configuracion_operativa`: condiciones de operacion
-* `vida_util`: variable objetivo (Remaining Useful Life)
+* `vida_util`: variable objetivo
 
 ---
 
-## Análisis Exploratorio de Datos (EDA)
+## Analisis Exploratorio de Datos (EDA)
 
 ### Analisis Univariado
 
