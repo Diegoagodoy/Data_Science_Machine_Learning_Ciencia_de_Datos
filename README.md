@@ -225,7 +225,7 @@ xgboost        # XGBRegressor
 ## 👤 Autor
 
 **Diego A. Godoy**
-Proyecto desarrollado como parte de su formación en Data Science y Machine Learning.
+Proyecto desarrollado como parte mi formación en Data Science y Machine Learning.
 
 [![GitHub](https://img.shields.io/badge/GitHub-Diegoagodoy-181717?logo=github)](https://github.com/Diegoagodoy)
 
