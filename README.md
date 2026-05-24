@@ -211,38 +211,14 @@ xgboost        # XGBRegressor
 ## 📁 Estructura del Repositorio
 
 ```
-📦 proyecto-mantenimiento-predictivo
- ┣ 📓 notebook.ipynb          → Análisis completo y modelos
- ┣ 📄 train_FD001.txt         → Dataset NASA Turbofan
- ┣ 📊 README.md               → Este archivo
- ┗ 📁 outputs/
+📦
+ ┣ 📓 DataScienceII_DiegoAGodoy.ipynb  → Análisis completo y modelos
+ ┣ 📄 train_FD001.txt                  → Dataset NASA Turbofan
+ ┣ 📊 README.md                        → Este archivo
+ ┗ 📁 presentacion-ejecutiva/
     ┗ 📊 ML_Mantenimiento_Predictivo.pptx  → Presentación ejecutiva
+    ┗ 📊 ML_Mantenimiento_Predictivo.pdf   → Presentación ejecutiva
 ```
-
----
-
-## 🚀 Cómo Ejecutar
-
-```bash
-# 1. Clonar el repositorio
-git clone https://github.com/Diegoagodoy/Data_Science_Machine_Learning_Ciencia_de_Datos.git
-
-# 2. Instalar dependencias
-pip install pandas numpy matplotlib seaborn scikit-learn xgboost
-
-# 3. Ejecutar el notebook
-jupyter notebook notebook.ipynb
-```
-
----
-
-## 🔭 Próximos Pasos
-
-- [ ] Aplicar modelo a datasets FD002–FD004 (múltiples condiciones operativas)
-- [ ] Implementar pipeline de datos en tiempo real con sensores
-- [ ] Adaptar metodología a **baterías UPS** en entornos industriales
-- [ ] Explorar **LSTM / Deep Learning** para series temporales de sensores
-- [ ] Crear API REST para consumo del modelo en producción
 
 ---
 
