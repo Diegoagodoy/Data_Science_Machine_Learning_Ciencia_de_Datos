@@ -1,106 +1,258 @@
-# Prediccion de Vida Util de Motores (Mantenimiento Predictivo)
+# 🔧 Predicción de Vida Útil de Motores — Mantenimiento Predictivo
 
-## Descripcion del Proyecto
-
-Este proyecto tiene como objetivo analizar datos de sensores industriales para predecir la **vida util restante de motores**, aplicando tecnicas de analisis de datos y preparando el terreno para modelos de Machine Learning.
-
-El enfoque principal esta en comprender el comportamiento de los sensores y su relacion con el desgaste del motor.
-
----
-
-## Dataset
-
-Para el desarrollo de este proyecto se ha optado por utilizar un dataset de tipo regresion, ya que el objetivo principal es predecir una variable numerica continua.
-
-- **Dataset:** NASA Turbofan Jet Engine Data Set
-- **Origen:** https://www.kaggle.com/datasets/behrad3d/nasa-cmaps
+![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
+![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.x-orange?logo=scikit-learn&logoColor=white)
+![XGBoost](https://img.shields.io/badge/XGBoost-2.x-red?logo=xgboost&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Completado-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 ---
 
-## Objetivos
+## 📋 Descripción del Proyecto
 
-* Analizar el comportamiento de los sensores
-* Comprender la variable objetivo (**vida_util**)
-* Detectar patrones de desgaste
-* Identificar variables relevantes
-* Preparar los datos para modelado
+Este proyecto aplica técnicas de **Machine Learning** para predecir la **Vida Útil Restante (RUL — Remaining Useful Life)** de motores turbofan a partir de datos históricos de sensores operacionales.
 
----
+El enfoque está orientado a entornos industriales reales, donde anticipar fallas permite:
+- Reducir hasta un **30% los costos operativos**
+- Eliminar **paradas no planificadas**
+- Optimizar la toma de decisiones en mantenimiento
 
-## Estructura del Dataset
-
-El dataset contiene las siguientes variables principales:
-
-* `motor_id`: identificador del motor
-* `ciclo`: número de ciclo de operacion
-* `sensor_1` a `sensor_21`: mediciones de sensores
-* `configuracion_operativa`: condiciones de operacion
-* `vida_util`: variable objetivo
+> 💡 A futuro, esta metodología será adaptada a la predicción de vida útil de **baterías UPS** en entornos industriales críticos.
 
 ---
 
-## Analisis Exploratorio de Datos (EDA)
+## 📦 Dataset
 
-### Analisis Univariado
-
-* La **vida útil** presenta una distribución con mayor concentración en valores bajos
-* Algunos sensores muestran baja variabilidad
-* Otros presentan mayor dispersión y valores atipicos
-
----
-
-### Analisis Bivariado
-
-* La **vida útil disminuye progresivamente** con el ciclo
-* Algunos sensores muestran cierta relación con el desgaste
-* No todos los sensores reflejan claramente el deterioro del motor
+| Campo | Detalle |
+|---|---|
+| **Nombre** | NASA Turbofan Jet Engine Data Set (FD001) |
+| **Origen** | [Kaggle — NASA CMAPS](https://www.kaggle.com/datasets/behrad3d/nasa-cmaps) |
+| **Tipo de problema** | Regresión continua |
+| **Registros** | 20.631 |
+| **Motores simulados** | 100 |
+| **Sensores** | 21 |
+| **Configuraciones operativas** | 3 |
 
 ---
 
-### Analisis Multivariado
+## 🎯 Objetivos
 
-* Se utilizo una matriz de correlacion
-* Se identificaron los sensores mas relacionados con la vida util
-* Se filtran valores nulos para mejorar el analisis
+### General
+Desarrollar un modelo que estime la vida útil restante de motores a partir de datos de sensores, con el fin de anticipar fallas y optimizar el mantenimiento.
 
----
-
-### Outliers
-
-* Se detectaron valores atipicos en varios sensores
-* No se eliminaron para evitar perder informacion relevante
-
----
-
-## Conclusiones del EDA
-
-* La vida util disminuye con el uso del motor
-* No todos los sensores aportan informacion relevante
-* Existen sensores con mayor capacidad explicativa
-* Se identificaron variables clave para el modelado
+### Específicos
+- Analizar el comportamiento de los sensores a lo largo del tiempo
+- Detectar patrones asociados a la degradación de los motores
+- Identificar variables relevantes para la predicción
+- Construir la variable objetivo (`vida_util`)
+- Entrenar y comparar modelos de Machine Learning
 
 ---
 
-## Próximos pasos
+## 🗂️ Estructura del Dataset
 
-* Selección de variables
-* Escalado y normalizacion de datos
-* Entrenamiento de modelos de Machine Learning
-* Evaluacion de desempeño
-* Optimizacion del modelo
+```
+train_FD001.txt
+│
+├── motor_id               → Identificador del motor
+├── ciclo                  → Ciclo de operación acumulado
+├── configuracion_operativa_1, _2, _3  → Condiciones de trabajo
+└── sensor_1 ... sensor_21 → Mediciones internas del motor
+```
+
+### Variable Objetivo
+
+```python
+vida_util = ciclo_max - ciclo_actual
+```
+
+Representa los ciclos restantes hasta la falla del motor.
 
 ---
 
-## Tecnologías utilizadas
+## 🔄 Pipeline del Proyecto
 
-* Python
-* Pandas
-* NumPy
-* Matplotlib
-* Seaborn
+```
+Carga de datos → Limpieza → Ingeniería de variables → EDA → Modelado → Evaluación
+```
+
+### 1. Data Wrangling
+- Carga desde archivo `.txt` con separador de espacios múltiples
+- Asignación manual de nombres de columnas
+- Eliminación de columnas vacías y sin variabilidad (constantes)
+- Sin valores nulos detectados en el dataset
+- Outliers conservados: representan condiciones reales de desgaste
+
+### 2. Ingeniería de Variables
+- Cálculo de `ciclo_max` por motor (momento de falla)
+- Creación de `vida_util` como variable objetivo
+- Separación de features (`X`) y target (`y`)
+- Escalado con `StandardScaler` para regresión lineal
 
 ---
 
-## Autor
+## 📊 Análisis Exploratorio (EDA)
 
-Proyecto desarrollado por Diego A. Godoy como parte de su formacion en Data Science.
+### Hallazgos Clave
+
+| # | Hallazgo |
+|---|---|
+| 1 | La vida útil **disminuye progresivamente** con el número de ciclos |
+| 2 | Ciertos sensores muestran **variaciones sistemáticas** previas a la falla |
+| 3 | Existen sensores con **alta correlación** con la vida útil restante |
+| 4 | Los patrones de desgaste se **repiten entre motores**, permitiendo generalizar |
+
+### Top Sensores Correlacionados con `vida_util`
+
+| Sensor | Correlación |
+|---|---|
+| sensor_11 | -0.847 |
+| sensor_4  | -0.821 |
+| sensor_12 | -0.813 |
+| sensor_15 | +0.798 |
+| sensor_7  | -0.771 |
+
+---
+
+## 🤖 Modelos de Machine Learning
+
+Se entrenaron y compararon 4 modelos de regresión:
+
+| Modelo | Descripción |
+|---|---|
+| **Regresión Lineal** | Modelo baseline, relaciones lineales |
+| **Random Forest** | 100 árboles, relaciones no lineales |
+| **Random Forest Optimizado** | GridSearchCV con cv=3 folds |
+| **XGBoost** | Gradient Boosting, 200 estimadores, lr=0.05 |
+
+### Configuración del Split
+
+```python
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+```
+
+### Optimización de Hiperparámetros (GridSearchCV)
+
+```python
+parametros = {
+    'n_estimators': [100, 150],
+    'max_depth': [10, 20],
+    'min_samples_split': [2, 5]
+}
+```
+
+---
+
+## 📈 Resultados
+
+| Modelo | RMSE ↓ | MAE ↓ | R² ↑ |
+|---|---|---|---|
+| Regresión Lineal | 39.70 | 30.54 | 0.655 |
+| Random Forest | 35.93 | 25.45 | 0.717 |
+| **Random Forest Optimizado** | **35.62** | **25.27** | **0.722** |
+| XGBoost | 35.64 | 25.37 | 0.722 |
+
+### 🏆 Mejor Modelo: Random Forest Optimizado
+
+```
+RMSE : 35.62
+MAE  : 25.27
+R²   : 0.722  →  Explica el 72% de la variabilidad de la vida útil
+```
+
+### Validación Cruzada (5-Fold)
+
+| Fold | R² |
+|---|---|
+| Fold 1 | 0.710 |
+| Fold 2 | 0.730 |
+| Fold 3 | 0.720 |
+| Fold 4 | 0.710 |
+| Fold 5 | 0.740 |
+| **Promedio** | **0.722** |
+
+> Resultados estables entre folds (σ < 0.015) — sin señales de sobreajuste.
+
+---
+
+## 🔍 Importancia de Variables
+
+| Variable | Importancia |
+|---|---|
+| ciclo | 38% |
+| sensor_11 | 18% |
+| sensor_4 | 13% |
+| sensor_12 | 9% |
+| sensor_15 | 7% |
+| sensor_7 | 5% |
+
+> El ciclo acumulado y los sensores de temperatura y presión son los predictores más relevantes.
+
+---
+
+## 🧰 Tecnologías Utilizadas
+
+```python
+# Análisis y manipulación
+pandas
+numpy
+
+# Visualización
+matplotlib
+seaborn
+
+# Machine Learning
+scikit-learn   # LinearRegression, RandomForestRegressor, GridSearchCV, métricas
+xgboost        # XGBRegressor
+```
+
+---
+
+## 📁 Estructura del Repositorio
+
+```
+📦 proyecto-mantenimiento-predictivo
+ ┣ 📓 notebook.ipynb          → Análisis completo y modelos
+ ┣ 📄 train_FD001.txt         → Dataset NASA Turbofan
+ ┣ 📊 README.md               → Este archivo
+ ┗ 📁 outputs/
+    ┗ 📊 ML_Mantenimiento_Predictivo.pptx  → Presentación ejecutiva
+```
+
+---
+
+## 🚀 Cómo Ejecutar
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/Diegoagodoy/Data_Science_Machine_Learning_Ciencia_de_Datos.git
+
+# 2. Instalar dependencias
+pip install pandas numpy matplotlib seaborn scikit-learn xgboost
+
+# 3. Ejecutar el notebook
+jupyter notebook notebook.ipynb
+```
+
+---
+
+## 🔭 Próximos Pasos
+
+- [ ] Aplicar modelo a datasets FD002–FD004 (múltiples condiciones operativas)
+- [ ] Implementar pipeline de datos en tiempo real con sensores
+- [ ] Adaptar metodología a **baterías UPS** en entornos industriales
+- [ ] Explorar **LSTM / Deep Learning** para series temporales de sensores
+- [ ] Crear API REST para consumo del modelo en producción
+
+---
+
+## 👤 Autor
+
+**Diego A. Godoy**
+Proyecto desarrollado como parte de su formación en Data Science y Machine Learning.
+
+[![GitHub](https://img.shields.io/badge/GitHub-Diegoagodoy-181717?logo=github)](https://github.com/Diegoagodoy)
+
+---
+
+*Machine Learning aplicado a Mantenimiento Predictivo · NASA Turbofan Dataset · 2025*
